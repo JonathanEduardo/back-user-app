@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\RegisterController;
-use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +26,16 @@ Route::controller(RegisterController::class)->group(function(){
     Route::post('login', 'login');
 });
 
-Route::middleware('auth:sanctum')->group( function () {
-    Route::resource('products', ProductController::class);
-});
 
 
 
-Route::get('/users', [ProductController::class, 'index']);
+Route::get('/users', [UserController::class, 'index']);
+
+
+// Rutas CRUD de usuarios
+Route::get('/users', [UserController::class, 'index']); // Listar usuarios
+Route::post('/users', [UserController::class, 'store']); // Crear un usuario
+Route::get('/users/{id}', [UserController::class, 'show']); // Mostrar un usuario por ID
+Route::put('/users/{id}', [UserController::class, 'update']); // Actualizar un usuario
+Route::delete('/users/{id}', [UserController::class, 'destroy']); // Eliminar un usuario
+
