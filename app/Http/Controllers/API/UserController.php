@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-          // Filtrar por búsqueda
+          // Filter by search query
         $query = User::query();
 
         if ($request->has('search')) {
@@ -24,14 +24,14 @@ class UserController extends Controller
                   ->orWhere('email', 'like', "%$search%");
         }
 
-        // Ordenar (opcional)
-        $orderBy = $request->get('order_by', 'created_at'); // Por defecto, ordenar por 'created_at'
-        $orderDir = $request->get('order_dir', 'desc');     // Por defecto, 'desc'
+        // Optional sorting
+        $orderBy = $request->get('order_by', 'created_at'); // Default to sorting by 'created_at'
+        $orderDir = $request->get('order_dir', 'desc');     // Default to 'desc'
 
         $query->orderBy($orderBy, $orderDir);
 
-        // Paginación
-        $users = $query->get(); // Cambia 10 por el número de registros que prefieras por página
+        // Pagination
+        $users = $query->get(); // Change 10 to the number of records per page you prefer
 
         return response()->json($users);
     }
@@ -50,9 +50,9 @@ class UserController extends Controller
 
         ]);
 
-        // Checa si existe el password
+        // Check if the password exists
         if ($request->has('password') && !empty($request->password)) {
-            // Hashea la contraseña
+            // Hash the password
             $validated['password'] = bcrypt($request->password);
         }
 
@@ -71,7 +71,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
 
         return response()->json($user, 200);
@@ -89,7 +89,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
 
         $validated = $request->validate([
@@ -109,18 +109,18 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        // Buscar el usuario por su ID
+        // Find the user by ID
         $user = User::find($id);
 
-        // Verificar si el usuario existe
+        // Check if the user exists
         if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
 
-        // Eliminar el usuario
+        // Delete the user
         $user->delete();
 
-        // Responder con un mensaje de éxito
-        return response()->json(['message' => 'Usuario eliminado correctamente'], 200);
+        // Respond with a success message
+        return response()->json(['message' => 'User successfully deleted'], 200);
     }
 }
