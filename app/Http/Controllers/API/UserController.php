@@ -93,7 +93,7 @@ class UserController extends Controller
         }
 
         $validated = $request->validate([
-            'nombre' => 'sometimes|string|max:255',
+            'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,' . $id,
         ]);
 
