@@ -50,6 +50,12 @@ class UserController extends Controller
 
         ]);
 
+        // Checa si existe el password
+        if ($request->has('password') && !empty($request->password)) {
+            // Hashea la contraseña
+            $validated['password'] = bcrypt($request->password);
+        }
+
         $user = User::create($validated);
         return response()->json($user, 201);
     }
